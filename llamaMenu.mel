@@ -1,0 +1,26 @@
+global string $gMainWindow;
+
+// Get rid of existing menu in case it exists already
+if (`menu -q -exists ccLlamaMenu`)
+    {
+    menu -e -dai ccLlamaMenu;
+    }
+else
+    {
+	setParent $gMainWindow ;
+    menu -l "Llama" -p MayaWindow -to true ccLlamaMenu ;
+    }
+
+setParent -menu ccLlamaMenu ;
+
+// Control shape plugins
+menuItem -l "Control shapes" -sm true -to true ;
+    menuItem -l ("Recolor shapes...") -c ("source \"LlamaScripts/llamaNurbsColor.mel\"; llamaNurbsColor(); ") -ann ("Changes the color of selected curves.") -image "autoTangent.bmp" ;
+    setParent -menu ".." ;
+
+// Rebuild menu
+menuItem -divider true ;
+menuItem -l "Re-Build Menu" -c ("rehash; source \"LlamaScripts/llamaMenu.mel\" ;") -ann ("Re-Creates this menu, and does a rehash to pick up any new scripts.") ;
+
+
+

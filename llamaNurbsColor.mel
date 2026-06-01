@@ -1,0 +1,17 @@
+// Main UI entry.
+global proc llamaNurbsColor()
+{
+    if (`window -ex llamaNurbsColorWin` != true)
+        {
+	window -w 310 -h 360 -t ("llamaNurbsColor - 1.20") -in "llamaNurbsColor" -s true -tb true llamaNurbsColorWin;
+
+	columnLayout cr_mainCol;
+
+	showWindow llamaNurbsColorWin;
+	}
+    else // else just pop it up from being minimized again
+    	{
+	showWindow llamaNurbsColorWin;
+	}
+
+}
