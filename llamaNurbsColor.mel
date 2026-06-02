@@ -15,21 +15,24 @@ global proc RecolorCurves(float $rgb[])
     }
 }
 
-// Main UI entry.
+// Main UI
 global proc llamaNurbsColor()
 {
     if (`window -ex llamaNurbsColorWin` != true)
         {
-	window -w 310 -h 360 -t ("llamaNurbsColor - 1.20") -in "llamaNurbsColor" -s true -tb true llamaNurbsColorWin;
+	window -w 310 -h 360 -t ("llamaNurbsColor") -in "llamaNurbsColor" -s true -tb true llamaNurbsColorWin;
 
 	columnLayout cr_mainCol;
 
     	colorSliderGrp
             -label "Curve Color"
-            -rgb 1.0 0.5 0.0
+            -rgb 1.0 0.0 0.0
             colorField;
 
-	button -l "Search And Replace" -al "center" -w 300 -c ("RecolorCurves(`colorSliderGrp -q -rgb colorField`);") -ann " " butSearchReplace;
+	button 
+	-l "Recolor curves" 
+	-al "center" -w 300 
+	-c ("RecolorCurves(`colorSliderGrp -q -rgb colorField`);");
 
 	showWindow llamaNurbsColorWin;
 	}
@@ -37,5 +40,4 @@ global proc llamaNurbsColor()
     	{
 	showWindow llamaNurbsColorWin;
 	}
-
 }

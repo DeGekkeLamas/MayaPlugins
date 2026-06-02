@@ -1,0 +1,65 @@
+// Rescale function
+global proc RescaleCurves(float $scale)
+{
+    string $objs[] = `ls -sl -long`;
+    int $objCnt = size($objs);
+
+    // Loop selected objects
+    for ($i=0; $i < $objCnt; ++$i)
+    {
+	string $shapes[] = `listRelatives -s $objs[$i]`;
+        for ($shape in $shapes)
+        {
+
+	    if (`nodeType $shape` == "nurbsCurve")
+	    {
+		// Save position
+		float $pivot[] = `xform -q -ws -rp $objs[$i]`;
+		float $x = $pivot[0];
+		float $y = $pivot[1];
+		float $z = $pivot[2];
+
+		// Scale vertices
+		string $cvs[] = `ls -fl ($shape + ".cv[*]")`;
+		int $cvCount = size($cvs);
+		for ($j = 0; $j < $cvCount; ++$j)
+		{
+		    float $cvPos[] = `xform -q -ws -t $cvs[$j]`;
+
+		    float $nx = $x + ($cvPos[0]-$x) * $scale;
+		    float $ny = $y + ($cvPos[1]-$y) * $scale;
+		    float $nz = $z + ($cvPos[2]-$z) * $scale;
+		    xform -ws -t $nx $ny $nz $cvs[$j];
+		}
+	    }
+	}
+    }
+}
+
+// Main UI
+global proc llamaNurbsScale()
+{
+    if (`window -ex llamaNurbsColorWin` != true)
+        {
+	window -w 310 -h 360 -t ("llamaNurbsColor") -in "llamaNurbsColor" -s true -tb true llamaNurbsColorWin;
+
+	columnLayout cr_mainCol;
+
+floatFieldGrp
+    -label "Scale"
+    -value1 0.5
+    scaleField;
+
+	button 
+	-l "Scale curves"
+	-al "center"
+	-w 300 
+	-c  "float $scale = `floatFieldGrp -q -value1 scaleField`; RescaleCurves($scale); ";
+
+	showWindow llamaNurbsColorWin;
+	}
+    else // else just pop it up from being minimized again
+    	{
+	showWindow llamaNurbsColorWin;
+	}
+}
