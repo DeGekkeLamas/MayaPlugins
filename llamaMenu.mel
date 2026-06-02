@@ -17,6 +17,7 @@ setParent -menu ccLlamaMenu ;
 menuItem -l "Control shapes" -sm true -to true ;
     menuItem -l ("Recolor shapes...") -c ("source \"./llamaNurbsColor.mel\"; llamaNurbsColor(); ") -ann ("Changes the color of selected curves.") -image "autoTangent.bmp" ;
     menuItem -l ("Scale shapes...") -c ("source \"./llamaNurbsScale.mel\"; llamaNurbsScale(); ") -ann ("Scales the selected curves.") -image "autoTangent.bmp" ;
+    menuItem -l ("Move shapes...") -c ("source \"./llamaNurbsMove.mel\"; llamaNurbsMove(); ") -ann ("Translates the selected curves, without moving the pivot.") -image "autoTangent.bmp" ;
     setParent -menu ".." ;
 
 // Rebuild menu

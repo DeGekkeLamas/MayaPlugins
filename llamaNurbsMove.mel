@@ -1,5 +1,5 @@
-// Rescale function
-global proc ScaleCurves(float $scale)
+// Translate function
+global proc TranslateCurves(float $pos[])
 {
     string $objs[] = `ls -sl -long`;
     int $objCnt = size($objs);
@@ -13,22 +13,16 @@ global proc ScaleCurves(float $scale)
 
 	    if (`nodeType $shape` == "nurbsCurve")
 	    {
-		// Save position
-		float $pivot[] = `xform -q -ws -rp $objs[$i]`;
-		float $x = $pivot[0];
-		float $y = $pivot[1];
-		float $z = $pivot[2];
-
-		// Scale vertices
+		// Move vertices
 		string $cvs[] = `ls -fl ($shape + ".cv[*]")`;
 		int $cvCount = size($cvs);
 		for ($j = 0; $j < $cvCount; ++$j)
 		{
 		    float $cvPos[] = `xform -q -ws -t $cvs[$j]`;
 
-		    float $nx = $x + ($cvPos[0]-$x) * $scale;
-		    float $ny = $y + ($cvPos[1]-$y) * $scale;
-		    float $nz = $z + ($cvPos[2]-$z) * $scale;
+		    float $nx = $cvPos[0] + $pos[0];
+		    float $ny = $cvPos[1] + $pos[1];
+		    float $nz = $cvPos[2] + $pos[2];
 		    xform -ws -t $nx $ny $nz $cvs[$j];
 		}
 	    }
@@ -37,29 +31,37 @@ global proc ScaleCurves(float $scale)
 }
 
 // Main UI
-global proc llamaNurbsScale()
+global proc llamaNurbsMove()
 {
     if (`window -ex llamaNurbsColorWin` != true)
-        {
+    {
 	window -w 310 -h 360 -t ("llamaNurbsColor") -in "llamaNurbsColor" -s true -tb true llamaNurbsColorWin;
 
 	columnLayout cr_mainCol;
 
-floatFieldGrp
-    -label "Scale"
-    -value1 0.5
-    scaleField;
+    floatFieldGrp
+	-label "Translate"
+	-numberOfFields 3
+	-value1 0.0
+	-value2 0.0
+	-value3 0.0
+	translateField;
 
+	string $cmdTranslate = "float $tx = `floatFieldGrp -q -value1 translateField`;"+
+    	"float $ty = `floatFieldGrp -q -value2 translateField`;"+
+    	"float $tz = `floatFieldGrp -q -value3 translateField`;"+
+    	"float $translate[] = {$tx, $ty, $tz};"+
+		"TranslateCurves($translate);";
 	button 
-	-l "Scale curves"
+	-l "Move curves"
 	-al "center"
 	-w 300 
-	-c  "float $scale = `floatFieldGrp -q -value1 scaleField`; ScaleCurves($scale); ";
+	-c  $cmdTranslate;
 
 	showWindow llamaNurbsColorWin;
-	}
+    }
     else // else just pop it up from being minimized again
-    	{
+    {
 	showWindow llamaNurbsColorWin;
-	}
+    }
 }
