@@ -19,6 +19,9 @@ menuItem -l "Control shapes" -sm true -to true ;
     menuItem -l ("Scale shapes...") -c ("source \"./llamaNurbsScale.mel\"; llamaNurbsScale(); ") -ann ("Scales the selected curves.") -image "autoTangent.bmp" ;
     menuItem -l ("Move shapes...") -c ("source \"./llamaNurbsMove.mel\"; llamaNurbsMove(); ") -ann ("Translates the selected curves, without moving the pivot.") -image "autoTangent.bmp" ;
     setParent -menu ".." ;
+menuItem -l "Geometry" -sm true -to true ;
+    menuItem -l ("Unfreeze position...") -c ("source \"./llamaUnfreezeTransform.mel\"; llamaNurbsMove(); ") -ann ("Set the transform position to a specified position") -image "autoTangent.bmp" ;
+    setParent -menu ".." ;
 
 // Rebuild menu
 menuItem -divider true ;

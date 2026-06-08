@@ -1,0 +1,185 @@
+// Translate function
+global proc Translate(string $obj, float $pos[])
+{
+	float $cvPos[] = `xform -q -ws -t $obj`;
+    float $nx = $cvPos[0] + $pos[0];
+    float $ny = $cvPos[1] + $pos[1];
+    float $nz = $cvPos[2] + $pos[2];
+    xform -ws -t $nx $ny $nz $obj;
+}
+
+// Translate function
+global proc SetPos(string $obj, float $pos[])
+{
+	float $cvPos[] = `xform -q -ws -t $obj`;
+    float $nx = $pos[0];
+    float $ny = $pos[1];
+    float $nz = $pos[2];
+    xform -ws -t $nx $ny $nz $obj;
+}
+
+// Invert vec3
+global proc float[] InvertVec3(float $vec[])
+{
+	float $invPos[] = $vec;
+	for ($i=0; $i < size($invPos); ++$i)
+	{
+		$invPos[$i] = - $invPos[$i];
+	}
+	return $invPos;
+}
+
+// Get pivot
+global proc float[] GetPivot(string $obj)
+{
+	return `xform -q -ws -rp $obj`;
+}
+
+// Get geo center
+global proc float[] GetObjectCenter(string $obj)
+{
+	string $verts[] = `ls -flatten ($obj + ".vtx[*]")`;
+	float $pos[] = `xform -q -ws -t $obj`;
+	float $average[] = {0.0, 0.0, 0.0};
+	// Get average
+	for ($vert in $verts)
+	{
+		float $vertPos[] = `xform -q -ws -t $vert`;
+		$average[0] += $vertPos[0];
+		$average[1] += $vertPos[1];
+		$average[2] += $vertPos[2];
+	}
+	float $vertsSize = size($verts);
+	$average[0] /= $vertsSize;
+	$average[1] /= $vertsSize;
+	$average[2] /= $vertsSize;
+
+	return $average;
+}
+
+// Move single object 
+global proc TranslateObject(string $obj, float $pos[])
+{
+	// Set new transform position
+	float $oldPos[] = `xform -q -ws -t $obj`;
+	SetPos($obj, $pos);
+	
+	// Translate vertices back
+	string $verts[] = `ls -flatten ($obj + ".vtx[*]")`;
+	// Get negative pos
+	float $delta[] = {
+    $pos[0] - $oldPos[0],
+    $pos[1] - $oldPos[1],
+    $pos[2] - $oldPos[2]
+		};
+	float $invPos[] = InvertVec3($delta);
+
+	// Do translation
+	for ($vert in $verts)
+	{
+		Translate($vert, $invPos);
+	}
+
+	// Undo for pivot
+	float $pivotPos[] = GetPivot($obj);
+	for($i=0; $i < size($invPos); ++$i)
+	{
+		$pivotPos[$i] -= $delta[$i];
+	}
+	xform -ws
+    -rp $pivotPos[0] $pivotPos[1] $pivotPos[2]
+    -sp $pivotPos[0] $pivotPos[1] $pivotPos[2]
+    $obj;
+}
+
+// Transform position
+global proc TranslatePos(float $pos[])
+{
+    string $objs[] = `ls -sl -long`;
+    int $objCnt = size($objs);
+
+    // Loop selected objects
+    for ($i=0; $i < $objCnt; ++$i)
+    {
+		TranslateObject($objs[$i], $pos);
+    }
+}
+
+// To pivot
+global proc UnfreezeToPivot()
+{
+    string $objs[] = `ls -sl -long`;
+    int $objCnt = size($objs);
+
+    // Loop selected objects
+    for ($i=0; $i < $objCnt; ++$i)
+    {
+		// Pivot pos
+		float $pivot[] = GetPivot($objs[$i]);
+		TranslateObject($objs[$i], $pivot);
+    }
+}
+
+
+// To center
+global proc UnfreezeToCenter()
+{
+    string $objs[] = `ls -sl -long`;
+    int $objCnt = size($objs);
+
+    // Loop selected objects
+    for ($i=0; $i < $objCnt; ++$i)
+    {
+		// Center pos
+		float $center[] = GetObjectCenter($objs[$i]);
+		TranslateObject($objs[$i], $center);
+    }
+}
+
+// Main UI
+global proc llamaNurbsMove()
+{
+    if (`window -ex llamaNurbsColorWin` != true)
+    {
+	window -w 310 -h 360 -t ("llamaNurbsColor") -in "llamaNurbsColor" -s true -tb true llamaNurbsColorWin;
+
+	columnLayout cr_mainCol;
+
+    floatFieldGrp
+	-label "Translate"
+	-numberOfFields 3
+	-value1 0.0
+	-value2 0.0
+	-value3 0.0
+	translateField;
+
+	string $cmdTranslate = "float $tx = `floatFieldGrp -q -value1 translateField`;"+
+    	"float $ty = `floatFieldGrp -q -value2 translateField`;"+
+    	"float $tz = `floatFieldGrp -q -value3 translateField`;"+
+    	"float $translate[] = {$tx, $ty, $tz};"+
+		"TranslatePos($translate);";
+	button 
+	-l "Unfreeze to"
+	-al "center"
+	-w 300 
+	-c  $cmdTranslate;
+
+	button 
+	-l "Unfreeze to pivot"
+	-al "center"
+	-w 300 
+	-c  "UnfreezeToPivot();";
+	
+	button 
+	-l "Unfreeze to geometry center"
+	-al "center"
+	-w 300 
+	-c  "UnfreezeToCenter();";
+
+	showWindow llamaNurbsColorWin;
+    }
+    else // else just pop it up from being minimized again
+    {
+	showWindow llamaNurbsColorWin;
+    }
+}

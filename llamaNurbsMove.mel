@@ -10,23 +10,22 @@ global proc TranslateCurves(float $pos[])
 	string $shapes[] = `listRelatives -s $objs[$i]`;
         for ($shape in $shapes)
         {
+	    	if (`nodeType $shape` == "nurbsCurve")
+	    	{
+				// Move vertices
+				string $cvs[] = `ls -fl ($shape + ".cv[*]")`;
+				int $cvCount = size($cvs);
+				for ($j = 0; $j < $cvCount; ++$j)
+				{
+				    float $cvPos[] = `xform -q -ws -t $cvs[$j]`;
 
-	    if (`nodeType $shape` == "nurbsCurve")
-	    {
-		// Move vertices
-		string $cvs[] = `ls -fl ($shape + ".cv[*]")`;
-		int $cvCount = size($cvs);
-		for ($j = 0; $j < $cvCount; ++$j)
-		{
-		    float $cvPos[] = `xform -q -ws -t $cvs[$j]`;
-
-		    float $nx = $cvPos[0] + $pos[0];
-		    float $ny = $cvPos[1] + $pos[1];
-		    float $nz = $cvPos[2] + $pos[2];
-		    xform -ws -t $nx $ny $nz $cvs[$j];
+				    float $nx = $cvPos[0] + $pos[0];
+				    float $ny = $cvPos[1] + $pos[1];
+				    float $nz = $cvPos[2] + $pos[2];
+				    xform -ws -t $nx $ny $nz $cvs[$j];
+				}
+	    	}
 		}
-	    }
-	}
     }
 }
 
