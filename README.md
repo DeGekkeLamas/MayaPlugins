@@ -2,14 +2,14 @@
 This is a collection of scripts that can be used as utility for Autodesk Maya. 
 
 ## Installation guide
-1. Download the source code.zip of the [latest release](https://github.com/DeGekkeLamas/MayaPlugins/releases). 
+1. Download the source code.zip from the [latest release](https://github.com/DeGekkeLamas/MayaPlugins/releases). 
 
 2. Move all the files inside the .zip to `Documents\maya\scripts`.
-     * Placing them in a subfolder of `Documents\maya\scripts` is supported, but all files from the .zip should be located in the same folder. 
+     * If you want to place the files in a subfolder of `Documents\maya\scripts`, then you should edit the file `llamaMenu.mel` to have this folder as value for `$gLlamaToolsPath`. For example, if you placed the files in a folder named LlamaScripts, then `llamaMenu.mel` should say `global string $gLlamaToolsPath = "LlamaScripts";` in the second line. 
      
 3. In `Documents\maya\[YOUR MAYA VERSION]\scripts`, create a file named userSetup.mel and edit it in notepad or a different text editor to contain the text `source "llamaMenu.mel" ;`
      * If this file already exists, then add the text `source "llamaMenu.mel";` to it.
-     * If you placed the files from step 2 in a subfolder, then that should be reflected in this step. For example, if the scripts are in a subfolder named LlamaScripts, then instead add the text `source "LlamaScripts/llamaMenu.mel" ;` to the file. 
+     * If you placed the files from step 2 in a subfolder, then that should be reflected in this step. For example, if the scripts are in a subfolder named LlamaScripts, then instead add the text `source "LlamaScripts/llamaMenu.mel" ;` to the file instead. 
      
 4. Restart Maya to apply the changes made.
 
