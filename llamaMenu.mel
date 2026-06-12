@@ -1,5 +1,5 @@
 global string $gMainWindow;
-global string $gLlamaToolsPath = "";
+global string $gLlamaToolsPath = ""; // When placing the script in a subfolder, edit this here
 
 // Get rid of existing menu in case it exists already
 if (`menu -q -exists ccLlamaMenu`)
