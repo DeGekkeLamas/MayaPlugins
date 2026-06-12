@@ -1,4 +1,5 @@
 global string $gMainWindow;
+global string $gLlamaToolsPath = "";
 
 // Get rid of existing menu in case it exists already
 if (`menu -q -exists ccLlamaMenu`)
@@ -15,17 +16,18 @@ setParent -menu ccLlamaMenu ;
 
 // Control shape plugins
 menuItem -l "Control shapes" -sm true -to true ;
-    menuItem -l ("Recolor shapes...") -c ("source \"./llamaNurbsColor.mel\"; llamaNurbsColor(); ") -ann ("Changes the color of selected curves.") -image "autoTangent.bmp" ;
-    menuItem -l ("Scale shapes...") -c ("source \"./llamaNurbsScale.mel\"; llamaNurbsScale(); ") -ann ("Scales the selected curves.") -image "autoTangent.bmp" ;
-    menuItem -l ("Move shapes...") -c ("source \"./llamaNurbsMove.mel\"; llamaNurbsMove(); ") -ann ("Translates the selected curves, without moving the pivot.") -image "autoTangent.bmp" ;
+    menuItem -l ("Recolor shapes...") -c ("source \"" + $gLlamaToolsPath + "/llamaNurbsColor.mel\"; llamaNurbsColor(); ") -ann ("Changes the color of selected curves.") -image "autoTangent.bmp" ;
+    menuItem -l ("Scale shapes...") -c ("source \"" + $gLlamaToolsPath + "/llamaNurbsScale.mel\"; llamaNurbsScale(); ") -ann ("Scales the selected curves.") -image "autoTangent.bmp" ;
+    menuItem -l ("Move shapes...") -c ("source \"" + $gLlamaToolsPath + "/llamaNurbsMove.mel\"; llamaNurbsMove(); ") -ann ("Translates the selected curves, without moving the pivot.") -image "autoTangent.bmp" ;
     setParent -menu ".." ;
+// Geometry plugins
 menuItem -l "Geometry" -sm true -to true ;
-    menuItem -l ("Unfreeze position...") -c ("source \"./llamaUnfreezeTransform.mel\"; llamaNurbsMove(); ") -ann ("Set the transform position to a specified position") -image "autoTangent.bmp" ;
+    menuItem -l ("Unfreeze position...") -c ("source \"" + $gLlamaToolsPath + "/llamaUnfreezeTransform.mel\"; llamaNurbsMove(); ") -ann ("Set the transform position to a specified position") -image "autoTangent.bmp" ;
     setParent -menu ".." ;
 
 // Rebuild menu
 menuItem -divider true ;
-menuItem -l "Re-Build Menu" -c ("rehash; source \"./llamaMenu.mel\" ;") -ann ("Re-Creates this menu, and does a rehash to pick up any new scripts.") ;
+menuItem -l "Re-Build Menu" -c ("rehash; source \"" + $gLlamaToolsPath + "/llamaMenu.mel\" ;") -ann ("Re-Creates this menu, and does a rehash to pick up any new scripts.") ;
 
 
 
