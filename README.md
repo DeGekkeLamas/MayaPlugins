@@ -14,9 +14,11 @@ This is a collection of scripts that can be used as utility for Autodesk Maya.
 4. Restart Maya to apply the changes made.
 
 ## What is included
+- Geometry: 
+  - Unfreeze transform: Allows you to "unfreeze" a transform by setting the position to a certain value without moving the actual geometry or pivot. 
 - Control shapes: 
   - Recolor shapes: Edit the color of all selected curve objects without having to manually set it in the attribute editor.
   - Scale shapes: Change the scale of all selected curve objects without altering their transform, without needing to enter vertex selection mode.
   - Move shapes: Change the position of all selected curve objects without altering their transform or pivot, without needing to enter vertex selection mode.
-- Geometry: 
-  - Unfreeze transform: Allows you to "unfreeze" a transform by setting the position to a certain value without moving the actual geometry or pivot. 
+- Joints:
+  - Move skinbound joints: Move joints without moving geometry attached to it. 
