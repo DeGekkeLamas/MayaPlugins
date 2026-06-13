@@ -22,7 +22,7 @@ global proc TranslateJoint(float $pos[])
 }
 
 // Main UI
-global proc llamaGeoUnfreeze()
+global proc llamaJointsMoveSkinned()
 {
     if (`window -ex llamaNurbsColorWin` != true)
     {
