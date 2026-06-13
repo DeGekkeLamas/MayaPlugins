@@ -137,7 +137,7 @@ global proc UnfreezeToCenter()
 }
 
 // Main UI
-global proc llamaNurbsMove()
+global proc llamaGeoUnfreeze()
 {
     if (`window -ex llamaNurbsColorWin` != true)
     {

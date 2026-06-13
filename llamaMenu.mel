@@ -1,5 +1,14 @@
+global string $gLlamaToolsPath = ""; 
+// When placing the script in a subfolder, edit the line above this comment to have the name of the folder as value
+//
+// If it is NOT in a subfolder, leave it as "", so the full line is:
+// global string $gLlamaToolsPath = "";
+// 
+// Example: If the script is placed in a subfolder named LlamaScripts, then that should be the value of $gLlamaToolsPath, resulting in this line:
+// global string $gLlamaToolsPath = "LlamaScripts"; 
+
 global string $gMainWindow;
-global string $gLlamaToolsPath = ""; // When placing the script in a subfolder, edit this here
+
 
 // Get rid of existing menu in case it exists already
 if (`menu -q -exists ccLlamaMenu`)
@@ -14,15 +23,19 @@ else
 
 setParent -menu ccLlamaMenu ;
 
-// Control shape plugins
+// Geometry scripts
+menuItem -l "Geometry" -sm true -to true ;
+    menuItem -l ("Unfreeze position...") -c ("source \"" + $gLlamaToolsPath + "/llamaUnfreezeTransform.mel\"; llamaGeoUnfreeze(); ") -ann ("Set the transform position to a specified position") -image "autoTangent.bmp" ;
+    setParent -menu ".." ;
+// Control shape scripts
 menuItem -l "Control shapes" -sm true -to true ;
     menuItem -l ("Recolor shapes...") -c ("source \"" + $gLlamaToolsPath + "/llamaNurbsColor.mel\"; llamaNurbsColor(); ") -ann ("Changes the color of selected curves.") -image "autoTangent.bmp" ;
     menuItem -l ("Scale shapes...") -c ("source \"" + $gLlamaToolsPath + "/llamaNurbsScale.mel\"; llamaNurbsScale(); ") -ann ("Scales the selected curves.") -image "autoTangent.bmp" ;
     menuItem -l ("Move shapes...") -c ("source \"" + $gLlamaToolsPath + "/llamaNurbsMove.mel\"; llamaNurbsMove(); ") -ann ("Translates the selected curves, without moving the pivot.") -image "autoTangent.bmp" ;
     setParent -menu ".." ;
-// Geometry plugins
-menuItem -l "Geometry" -sm true -to true ;
-    menuItem -l ("Unfreeze position...") -c ("source \"" + $gLlamaToolsPath + "/llamaUnfreezeTransform.mel\"; llamaNurbsMove(); ") -ann ("Set the transform position to a specified position") -image "autoTangent.bmp" ;
+// Joints scripts
+menuItem -l "Joints" -sm true -to true ;
+    menuItem -l ("Move skinbound joints...") -c ("source \"" + $gLlamaToolsPath + "/llamaMoveJoints.mel\"; llamaGeoUnfreeze(); ") -ann ("Set the transform position to a specified position") -image "autoTangent.bmp" ;
     setParent -menu ".." ;
 
 // Rebuild menu

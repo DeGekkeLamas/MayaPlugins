@@ -1,0 +1,63 @@
+// Toggle if skin is moved with joint
+global proc SetSkinclusters(string $skinClusters[], int $isTrue)
+{
+	for ($sc in $skinClusters)
+    {
+        skinCluster -e -moveJointsMode $isTrue $sc;
+    }
+}
+
+// Translate joint
+global proc TranslateJoint(float $pos[])
+{
+    string $sel[] = `ls -sl`;
+	string $skinClusters[] = `ls -type skinCluster`;
+
+	SetSkinclusters($skinClusters, true);
+	for ($joint in $sel) 
+	{
+    	move -r $pos[0] $pos[1] $pos[2] $joint;
+	}
+	SetSkinclusters($skinClusters, false);
+}
+
+// Main UI
+global proc llamaGeoUnfreeze()
+{
+    if (`window -ex llamaNurbsColorWin` != true)
+    {
+	window -w 310 -h 360 -t ("llamaNurbsColor") -in "llamaNurbsColor" -s true -tb true llamaNurbsColorWin;
+
+	columnLayout cr_mainCol;
+
+    floatFieldGrp
+	-label "Translate"
+	-numberOfFields 3
+	-value1 0.0
+	-value2 0.0
+	-value3 0.0
+	translateField;
+
+	text
+		-label "Be careful when using this when joints are constrained.";
+	text
+		-label "Translating a contrained joint with this may cause issues or strange behavior.";
+
+	string $cmdTranslate = "float $tx = `floatFieldGrp -q -value1 translateField`;"+
+    	"float $ty = `floatFieldGrp -q -value2 translateField`;"+
+    	"float $tz = `floatFieldGrp -q -value3 translateField`;"+
+    	"float $translate[] = {$tx, $ty, $tz};"+
+		"TranslateJoint($translate);";
+	button 
+	-l "Unfreeze to"
+	-al "center"
+	-w 300 
+	-c  $cmdTranslate;
+
+	showWindow llamaNurbsColorWin;
+    }
+    else // else just pop it up from being minimized again
+    {
+	showWindow llamaNurbsColorWin;
+    }
+}

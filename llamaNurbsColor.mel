@@ -7,8 +7,8 @@ global proc RecolorCurves(float $rgb[])
     for ($i=0; $i < $objCnt; ++$i)
     {
         setAttr ($objs[$i] + ".overrideEnabled") 1;
-	setAttr ($objs[$i] + ".overrideRGBColors") 1;
-	setAttr ($objs[$i] + ".overrideColorRGB")
+		setAttr ($objs[$i] + ".overrideRGBColors") 1;
+		setAttr ($objs[$i] + ".overrideColorRGB")
 	    $rgb[0]
 	    $rgb[1]
 	    $rgb[2];
