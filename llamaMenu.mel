@@ -35,7 +35,7 @@ menuItem -l "Control shapes" -sm true -to true ;
     setParent -menu ".." ;
 // Joints scripts
 menuItem -l "Joints" -sm true -to true ;
-    menuItem -l ("Move skinbound joints...") -c ("source \"" + $gLlamaToolsPath + "/llamaMoveJoints.mel\"; llamaGeoUnfreeze(); ") -ann ("Set the transform position to a specified position") -image "autoTangent.bmp" ;
+    menuItem -l ("Move skinbound joints...") -c ("source \"" + $gLlamaToolsPath + "/llamaMoveJoints.mel\"; llamaJointsMoveSkinned(); ") -ann ("Move joints without moving bound geometry") -image "autoTangent.bmp" ;
     setParent -menu ".." ;
 
 // Rebuild menu
