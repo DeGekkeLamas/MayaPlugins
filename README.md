@@ -8,6 +8,7 @@ This is a collection of scripts that can be used as utility for Autodesk Maya.
      * If you want to place the files in a subfolder of `Documents\maya\scripts`, then you should edit the file `llamaMenu.mel` to have this folder as value for `$gLlamaToolsPath`. This variable can be found in the first line of the script. For example, if you placed the files in a folder named LlamaScripts, then `llamaMenu.mel` should say `global string $gLlamaToolsPath = "LlamaScripts";`. 
      
 3. In `Documents\maya\[YOUR MAYA VERSION]\scripts`, create a file named userSetup.mel and edit it in notepad or a different text editor to contain the text `source "llamaMenu.mel" ;`
+     * If, for example, you use Maya 2025, then this folder would be `Documents\maya\2025\scripts`.
      * If this file already exists, then add the text `source "llamaMenu.mel";` to it.
      * If you placed the files from step 2 in a subfolder, then that should be reflected in this step. For example, if the scripts are in a subfolder named LlamaScripts, then instead add the text `source "LlamaScripts/llamaMenu.mel" ;` to the file instead. 
      
