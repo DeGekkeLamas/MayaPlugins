@@ -24,9 +24,9 @@ global proc TranslateJoint(float $pos[])
 // Main UI
 global proc llamaJointsMoveSkinned()
 {
-    if (`window -ex llamaNurbsColorWin` != true)
+    if (`window -ex llamaMoveJointsWin` != true)
     {
-	window -w 310 -h 360 -t ("llamaNurbsColor") -in "llamaNurbsColor" -s true -tb true llamaNurbsColorWin;
+	window -w 310 -h 360 -t ("llamaMoveJoints") -in "llamaMoveJoints" -s true -tb true llamaMoveJointsWin;
 
 	columnLayout cr_mainCol;
 
@@ -54,10 +54,10 @@ global proc llamaJointsMoveSkinned()
 	-w 300 
 	-c  $cmdTranslate;
 
-	showWindow llamaNurbsColorWin;
+	showWindow llamaMoveJointsWin;
     }
     else // else just pop it up from being minimized again
     {
-	showWindow llamaNurbsColorWin;
+	showWindow llamaMoveJointsWin;
     }
 }

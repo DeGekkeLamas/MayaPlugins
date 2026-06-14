@@ -39,9 +39,9 @@ global proc ScaleCurves(float $scale)
 // Main UI
 global proc llamaNurbsScale()
 {
-    if (`window -ex llamaNurbsColorWin` != true)
+    if (`window -ex llamaNurbsScaleWin` != true)
         {
-	window -w 310 -h 360 -t ("llamaNurbsColor") -in "llamaNurbsColor" -s true -tb true llamaNurbsColorWin;
+	window -w 310 -h 360 -t ("llamaNurbsScale") -in "llamaNurbsScale" -s true -tb true llamaNurbsScaleWin;
 
 	columnLayout cr_mainCol;
 
@@ -56,10 +56,10 @@ floatFieldGrp
 	-w 300 
 	-c  "float $scale = `floatFieldGrp -q -value1 scaleField`; ScaleCurves($scale); ";
 
-	showWindow llamaNurbsColorWin;
+	showWindow llamaNurbsScaleWin;
 	}
     else // else just pop it up from being minimized again
     	{
-	showWindow llamaNurbsColorWin;
+	showWindow llamaNurbsScaleWin;
 	}
 }

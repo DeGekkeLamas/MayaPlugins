@@ -139,9 +139,9 @@ global proc UnfreezeToCenter()
 // Main UI
 global proc llamaGeoUnfreeze()
 {
-    if (`window -ex llamaNurbsColorWin` != true)
+    if (`window -ex llamaUnfreezeTransformWin` != true)
     {
-	window -w 310 -h 360 -t ("llamaNurbsColor") -in "llamaNurbsColor" -s true -tb true llamaNurbsColorWin;
+	window -w 310 -h 360 -t ("llamaUnfreezeTransform") -in "llamaUnfreezeTransform" -s true -tb true llamaUnfreezeTransformWin;
 
 	columnLayout cr_mainCol;
 
@@ -176,10 +176,10 @@ global proc llamaGeoUnfreeze()
 	-w 300 
 	-c  "UnfreezeToCenter();";
 
-	showWindow llamaNurbsColorWin;
+	showWindow llamaUnfreezeTransformWin;
     }
     else // else just pop it up from being minimized again
     {
-	showWindow llamaNurbsColorWin;
+	showWindow llamaUnfreezeTransformWin;
     }
 }

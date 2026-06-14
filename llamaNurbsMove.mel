@@ -32,9 +32,9 @@ global proc TranslateCurves(float $pos[])
 // Main UI
 global proc llamaNurbsMove()
 {
-    if (`window -ex llamaNurbsColorWin` != true)
+    if (`window -ex llamaNurbsMoveWin` != true)
     {
-	window -w 310 -h 360 -t ("llamaNurbsColor") -in "llamaNurbsColor" -s true -tb true llamaNurbsColorWin;
+	window -w 310 -h 360 -t ("llamaNurbsMove") -in "llamaNurbsMove" -s true -tb true llamaNurbsMoveWin;
 
 	columnLayout cr_mainCol;
 
@@ -57,10 +57,10 @@ global proc llamaNurbsMove()
 	-w 300 
 	-c  $cmdTranslate;
 
-	showWindow llamaNurbsColorWin;
+	showWindow llamaNurbsMoveWin;
     }
     else // else just pop it up from being minimized again
     {
-	showWindow llamaNurbsColorWin;
+	showWindow llamaNurbsMoveWin;
     }
 }
