@@ -26,6 +26,7 @@ setParent -menu ccLlamaMenu ;
 // Geometry scripts
 menuItem -l "Geometry" -sm true -to true ;
     menuItem -l ("Unfreeze position...") -c ("source \"" + $gLlamaToolsPath + "/llamaUnfreezeTransform.mel\"; llamaGeoUnfreeze(); ") -ann ("Set the transform position to a specified position") -image "autoTangent.bmp" ;
+    menuItem -l ("Move geometry...") -c ("source \"" + $gLlamaToolsPath + "/llamaGeoMove.mel\"; llamaGeoMove(); ") -ann ("Move an objects geometry without altering its transform") -image "autoTangent.bmp" ;
     setParent -menu ".." ;
 // Control shape scripts
 menuItem -l "Control shapes" -sm true -to true ;

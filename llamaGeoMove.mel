@@ -1,0 +1,58 @@
+// Translate function
+global proc TranslateCurves(float $pos[])
+{
+    string $objs[] = `ls -sl -long`;
+    int $objCnt = size($objs);
+
+    // Loop selected objects
+    for ($i=0; $i < $objCnt; ++$i)
+    {
+		string $verts[] = `ls -flatten ($objs[$i] + ".vtx[*]")`;
+		// Move verts
+		for($j=0; $j < size($verts); ++$j)
+        {
+			float $cvPos[] = `xform -q -ws -t $verts[$j]`;
+
+			float $nx = $cvPos[0] + $pos[0];
+			float $ny = $cvPos[1] + $pos[1];
+			float $nz = $cvPos[2] + $pos[2];
+			xform -ws -t $nx $ny $nz $verts[$j];
+		}
+    }
+}
+
+// Main UI
+global proc llamaGeoMove()
+{
+    if (`window -ex llamaNurbsMoveWin` != true)
+    {
+	window -w 310 -h 360 -t ("llamaNurbsMove") -in "llamaNurbsMove" -s true -tb true llamaNurbsMoveWin;
+
+	columnLayout cr_mainCol;
+
+    floatFieldGrp
+	-label "Translate"
+	-numberOfFields 3
+	-value1 0.0
+	-value2 0.0
+	-value3 0.0
+	translateField;
+
+	string $cmdTranslate = "float $tx = `floatFieldGrp -q -value1 translateField`;"+
+    	"float $ty = `floatFieldGrp -q -value2 translateField`;"+
+    	"float $tz = `floatFieldGrp -q -value3 translateField`;"+
+    	"float $translate[] = {$tx, $ty, $tz};"+
+		"TranslateCurves($translate);";
+	button 
+	-l "Move curves"
+	-al "center"
+	-w 300 
+	-c  $cmdTranslate;
+
+	showWindow llamaNurbsMoveWin;
+    }
+    else // else just pop it up from being minimized again
+    {
+	showWindow llamaNurbsMoveWin;
+    }
+}
